@@ -4,7 +4,7 @@ from scipy.signal import find_peaks, welch
 import matplotlib.pyplot as plt  
 
 # Loading the updated CSV file
-file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filtered_ppg_signal_specific_columns_OnlyVideos.csv"  # Specifying the input file path
+file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\FilteredData\filtered_ppg_signal_with_38videos.csv"  # Specifying the input file path
 
 # Reading the CSV file into a pandas DataFrame 
 try:
@@ -34,8 +34,6 @@ for video_name, group in grouped_data:  # Iterating over each video type
     timestamps = group['Timestamp']  # Extracting the 'Timestamp' column
     ppg_signal = group['Butterworth Filtered PPG Signal']  # Extracting the filtered PPG signal
     raw_ppg_signal = group['Internal ADC A13 PPG RAW']  # Extracting the raw PPG signal
-    
-    
     
     # Converting timestamps to seconds if they are in milliseconds
     if timestamps.max() > 1e6:  
@@ -120,7 +118,7 @@ for video_name, group in grouped_data:  # Iterating over each video type
 final_df = pd.DataFrame(results)  # Creating a DataFrame to store features for all video types
 
 # Saving the aggregated features to a CSV file
-output_path = r'C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\AggregatedFeaturesHRV_.csv'  
+output_path = r'C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features\AggregatedFeaturesHRV_38_Videos.csv'  
 final_df.to_csv(output_path, index=False)  
 
 print(f"Aggregated features saved to {output_path}")  
