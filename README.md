@@ -24,7 +24,7 @@ The three scripts perform the following tasks:
 - Uses a **low-pass Butterworth filter** to smooth the signal.
 - Filters data based on predefined video stimuli.
 - Converts to seconds timestamp values adn splits videos.
-- Saves the filtered dataset as `filtered_ppg_signal_with_38videos.csv`.
+- Saves the filtered dataset as `filtered_ppg_signal_with_all_intervals.csv`.
 
 ### **Output**
 - Processed CSV file containing cleaned and filtered PPG data.
