@@ -89,7 +89,7 @@ data['Respondent Name'] = respondent_name
 # Specifying the columns to include in the output
 columns_to_include = ['Respondent Name','Timestamp', 'SourceStimuliName', 'Internal ADC A13 PPG RAW', 'Butterworth Filtered PPG Signal',]
 
-# Filter the rows based on SourceStimuliName
+# Filtering data based on source stimuli names
 source_stimuli_to_include = [
     "HN_1-1", "HN_2-1", "HN_3-1", "HN_4-1", "HN_5-1", "HN_6-1", "HN_7-1", "HN_8-1",
     "HP_1-1", "HP_2-1", "HP_3-1", "HP_4-1", "HP_5-1", "HP_6-1", "HP_7-1", "HP_8-1",
@@ -99,45 +99,144 @@ source_stimuli_to_include = [
 
 filtered_data = data[data['SourceStimuliName'].isin(source_stimuli_to_include)]
 
-# Reseting timestamps for each video to start from 0 and convert milliseconds to seconds
-filtered_data.loc[:, 'Timestamp'] = filtered_data.groupby('SourceStimuliName')['Timestamp'].transform(lambda x: (x - x.min()) / 1000.0)
+# Resetting timestamps for each video to start from 0 and converting milliseconds to seconds
+filtered_data.loc[:, 'Timestamp'] = filtered_data.groupby('SourceStimuliName')['Timestamp'].transform(
+    lambda x: (x - x.min()) / 1000.0
+)
 
-# Defining split intervals directly in the code
+# Defining split intervals 
+
 split_intervals = {
-    "HP_1-1": {"Start1": 20, "End1": 30, "Start2": 8.22, "End2": 9.23},
-    "HP_3-1": {"Start1": 0, "End1": 30, "Start2": 30, "End2": 35},
-    "HP_7-1": {"Start1": 3, "End1": 8, "Start2": 0, "End2": 3},
-    "HN_2-1": {"Start1": 7, "End1": 22, "Start2": 0, "End2": 7},
-    "HN_3-1": {"Start1": 42, "End1": 46, "Start2": 0, "End2": 10},
-    "LN_7-1": {"Start1": 60, "End1": 78, "Start2": 0, "End2": 10},
+    "HP_1-1": {"original_interval": (20, 30), "merge_intervals": [(8, 9), (22, 23)], "new_video_name": "HP_1-2"},
+    "HP_3-1": {"original_interval": (0, 30), "merge_intervals": [(30, 35)], "new_video_name": "HP_3-2"},
+    "HP_7-1": {"original_interval": (3, 8), "merge_intervals": [(0, 3)], "new_video_name": "HP_7-2"},
+    "HN_2-1": {"original_interval": (7, 22), "merge_intervals": [(0, 7)], "new_video_name": "HN_2-2"},
+    "HN_3-1": {"original_interval": (42, 46), "merge_intervals": [(0, 10)], "new_video_name": "HN_3-2"},
+    "LN_7-1": {"original_interval": (60, 78), "merge_intervals": [(0, 10)], "new_video_name": "LN_7-2"},
 }
 
 # Initializing an empty DataFrame for the split data
-split_data = pd.DataFrame()
+final_data = pd.DataFrame()
 
-# Looping through the videos to split based on the dictionary
-for video, intervals in split_intervals.items():
+# Looping through each video in `split_intervals` to process its data
+for video, details in split_intervals.items():
     video_data = filtered_data[filtered_data['SourceStimuliName'] == video]
+    if video_data.empty:
+        print(f"Warning: No data found for {video}. Skipping.")
+        continue
 
-    # Part 1
-    part1 = video_data[(video_data['Timestamp'] >= intervals["Start1"]) & (video_data['Timestamp'] <= intervals["End1"])]
+    # Ensures that timestamps for all intervals in the video remain continuous (no resets between intervals).
+    current_time = 0
 
-    # Part 2
-    part2 = video_data[(video_data['Timestamp'] >= intervals["Start2"]) & (video_data['Timestamp'] <= intervals["End2"])]
-    part2['SourceStimuliName'] = "-".join(video.split("-")[:-1]) + "-2"
+    # Part 1: Keeping the original interval
+    original_start, original_end = details["original_interval"]
+    part1 = video_data[
+        (video_data['Timestamp'] >= original_start) & (video_data['Timestamp'] <= original_end) #Selects rows where Timestamp falls within original_interval.
+    ]
+    # If the original interval contains data, adjust its timestamps
+    # Reseting the index and adjust timestamps so they start from `current_time`
+    if not part1.empty:
+        part1 = part1.reset_index(drop=True)
+        part1['Timestamp'] = current_time + (part1['Timestamp'] - part1['Timestamp'].min()) # Subtracts the smallest timestamp in the interval to start from current_time.
+        # Prepares the next interval to continue from the end of this interval.
+        current_time = part1['Timestamp'].max() + 0.001  # Incrementing to avoid overlaps
 
-    # Annexing the split parts
-    split_data = pd.concat([split_data, part1, part2], axis=0)
+    # Part 2: Merging specified intervals
+    merged_data = pd.DataFrame()
+    for start, end in details["merge_intervals"]:
+        interval_data = video_data[
+            (video_data['Timestamp'] >= start) & (video_data['Timestamp'] <= end)
+        ]
+        # If the interval contains data, adjust its timestamps
+        if not interval_data.empty:
+            # Reseting the index and adjusting timestamps so they start from `current_time`
+            interval_data = interval_data.reset_index(drop=True)
+            interval_data['Timestamp'] = current_time + (interval_data['Timestamp'] - interval_data['Timestamp'].min())
+            # Updating `current_time` to the last timestamp in `interval_data`
+            current_time = interval_data['Timestamp'].max() + 0.001  
+            # Appending the interval data to `merged_data`
+            merged_data = pd.concat([merged_data, interval_data], axis=0)
 
-# Extracting data for videos that don't need splitting
-remaining_videos = filtered_data[~filtered_data['SourceStimuliName'].isin(split_intervals.keys())]
+    # Renaming the merged video
+    if not merged_data.empty:
+        merged_data['SourceStimuliName'] = details["new_video_name"]
 
-# Combining the split data with the remaining videos
-final_data = pd.concat([remaining_videos, split_data], axis=0)
+    # Combining part1 and merged_data into split_data
+    split_data = pd.concat([part1, merged_data], axis=0)
+
+    # Appending the split data to the final dataset
+    final_data = pd.concat([final_data, split_data], axis=0)
+
+
+# Processing remaining videos with their specific intervals
+remaining_intervals = {
+    "HP_2-1": [(7, 22)],
+    "HP_4-1": [(10, 17)],
+    "HP_5-1": [(5, 10)],
+    "HP_6-1": [(2, 8)],
+    "HP_8-1": [(1, 38)],
+    "HN_1-1": [(0, 20)],
+    "HN_4-1": [(6, 10), (17, 20)],  # two intervals
+    "HN_5-1": [(10, 20)],
+    "HN_6-1": [(10, 20)],
+    "HN_7-1": [(0, 8)],
+    "HN_8-1": [(13, 46)],
+    "LN_1-1": [(0, 15)],
+    "LN_2-1": [(0, 17)],
+    "LN_3-1": [(0, 10)],
+    "LN_4-1": [(0, 10)],
+    "LN_5-1": [(10, 17)],
+    "LN_6-1": [(0, 10)],
+    "LN_8-1": [(0, 5)],
+    "LP_1-1": [(14, 16)],
+    "LP_2-1": [(1, 5)],
+    "LP_3-1": [(2, 15)],
+    "LP_4-1": [(14, 21)],
+    "LP_5-1": [(6, 14)],
+    "LP_6-1": [(1, 9)],
+    "LP_7-1": [(9, 30)],
+    "LP_8-1": [(3, 9)],
+}
+
+# Processing remaining videos with their specific intervals
+for video, intervals in remaining_intervals.items():
+    video_data = filtered_data[filtered_data['SourceStimuliName'] == video]
+    if video_data.empty:
+        print(f"Warning: No data found for {video}. Skipping.")
+        continue
+
+    # Initializing a DataFrame to store processed intervals
+    merged_data = pd.DataFrame()
+    current_time = 0  # Initialize time tracker for continuous timestamps
+
+    # Processing all intervals for the current video
+    for start, end in intervals:
+        interval_data = video_data[
+            (video_data['Timestamp'] >= start) & (video_data['Timestamp'] <= end)
+        ]
+
+        if interval_data.empty:
+            print(f"Warning: No data found for interval {start}-{end} in {video}. Skipping.")
+            continue
+
+        # Resetting timestamps for the interval to ensure continuity
+        interval_data = interval_data.reset_index(drop=True)
+        interval_data['Timestamp'] = current_time + (interval_data['Timestamp'] - interval_data['Timestamp'].min())
+
+        # Updating current_time for the next interval
+        current_time = interval_data['Timestamp'].max() + 0.001  # Add small increment to avoid overlaps
+
+        # Appending interval data to the merged_data DataFrame
+        merged_data = pd.concat([merged_data, interval_data], axis=0)
+
+    # Adding the merged data for the current video to the final DataFrame
+    final_data = pd.concat([final_data, merged_data], axis=0)
+
 
 # Saving the final dataset
-columns_to_include = ['Respondent Name', 'Timestamp', 'SourceStimuliName', 'Internal ADC A13 PPG RAW', 'Butterworth Filtered PPG Signal']
+final_data['Timestamp'] = final_data.groupby('SourceStimuliName')['Timestamp'].transform(lambda x: x - x.min()) #Adjusting to 0 each stimuli
 final_data = final_data[columns_to_include]
-final_data.to_csv(r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\FilteredData\filtered_ppg_signal_with_38videos.csv", index=False)
+final_output_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\FilteredData\filtered_ppg_signal_with_all_intervals.csv"
+final_data.to_csv(final_output_path, index=False)
 
-print("Final CSV file with 38 videos created successfully.")
+print(f"Final CSV file with all intervals created successfully at: {final_output_path}")

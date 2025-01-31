@@ -71,7 +71,7 @@ def process_poincare(stimulus, rr_intervals, file_name, results, output_dir):
         print(f"Not enough data points for stimulus: {stimulus}, skipping.")
 
 # Defining input CSV file path and output directory
-input_file = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\FilteredData\filtered_ppg_signal_with_38videos.csv"  # Replace with your file path
+input_file = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\FilteredData\filtered_ppg_signal_with_all_intervals.csv"  # Replace with your file path
 output_dir = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Results\PointcarePlots"
 
 # Loading the dataset

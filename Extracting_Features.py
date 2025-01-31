@@ -4,7 +4,7 @@ from scipy.signal import find_peaks, welch
 import matplotlib.pyplot as plt  
 
 # Loading the updated CSV file
-file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\FilteredData\filtered_ppg_signal_with_38videos.csv"  # Specifying the input file path
+file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\FilteredData\filtered_ppg_signal_with_all_intervals.csv"  # Specifying the input file path
 
 # Reading the CSV file into a pandas DataFrame 
 try:
