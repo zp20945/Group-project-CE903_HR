@@ -90,7 +90,6 @@ python script_3.py  # Generate Poincaré plots
 ```
 📂 Project Root
 ├── 📂 Raw_Participants_Data        # Raw CSV files
-├── 📂 Data_Without_Useless_Rows    # Processed data
 ├── 📂 FilteredData                 # Filtered PPG signals
 ├── 📂 Features                     # Extracted HRV metrics
 ├── 📂 Results                      # Poincaré plots & metrics
