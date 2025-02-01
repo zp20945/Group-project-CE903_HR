@@ -27,21 +27,28 @@ data = pd.read_csv(file_path)
 df, header, respondent_name = find_and_set_header(data, 0, 'Row') 
 
 # Outputing the results
-# print("Header row identified and applied:")
-# print(header)
+print("Header row identified and applied:", header)
 
-# print("\nRespondent name extracted:")
-# print(respondent_name)
+print("\nRespondent name extracted:", respondent_name)
 
 # Saving the processed DataFrame to a new CSV file
-df.to_csv(r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Data_Without_Useless_Raws\processed_006_4FoNM_py.csv", index=False)
-print("Processed file saved as 'processed_006_4FoNM_py.csv'")
+# df.to_csv(r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Data_Without_Useless_Raws\processed_006_4FoNM_py.csv", index=False)
+# print("Processed file saved as 'processed_006_4FoNM_py.csv'")
 
 ## The new file to work with 
-file_path = "processed_006_4FoNM_py.csv"
-data = pd.read_csv(file_path)
+# file_path = "processed_006_4FoNM_py.csv"
+# data = pd.read_csv(file_path)
 
-ppg_signal = data['Internal ADC A13 PPG RAW']  
+df['Internal ADC A13 PPG RAW'] = pd.to_numeric(df['Internal ADC A13 PPG RAW'], errors='coerce')
+
+# If all values become NaN, raising an error before proceeding
+if df['Internal ADC A13 PPG RAW'].isna().all():
+    raise ValueError("Error: The 'Internal ADC A13 PPG RAW' column contains no valid numeric data.")
+
+# Assigning processed DataFrame
+data = df  
+
+ppg_signal = data['Internal ADC A13 PPG RAW'].astype(float)  # Forces numeric conversion
 fs = 128  # Sampling frequency
 
 # Handling NaN values
