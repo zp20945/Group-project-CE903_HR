@@ -110,7 +110,7 @@ S-aves the merged dataset as final_merged_output.csv for further analysis.
 
 ## IBI_plotting
 ### **Objective**
-- Print PPG signal and IBI´s overtime
+- Print PPG signal and IBI´s overtime to analyze the intervals. 
 
 ---
 ## Dependencies
@@ -136,6 +136,7 @@ IBI_plotting.py #Generates the HRV plots
 Links for the resources for the project : 
 box : https://essexuniversity.app.box.com/folder/275047382390?tc=collab-folder-invite-treatment-b
 GoogleDrive with the essentials of the project: https://drive.google.com/drive/folders/1V_sfkkrW6q8fWkEJMH4I79qfRwFeJv19
--In google drive the folder that i use to make these codes run are : ToTry (to try the codes) & Participants ](to work with all data)
+-In google drive the folders that i use to make these codes run are : ToTry (to try the codes) & Participants ](to work with all data)
+- Intervals.csv contains the intervals (cut time sof the videos)
 
 
