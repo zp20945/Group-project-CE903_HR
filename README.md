@@ -7,7 +7,9 @@ The three scripts perform the following tasks:
 1. **Data Preprocessing & Filtering**: Cleans raw CSV data, applies Butterworth filters, and prepares datasets for further analysis.
 2. **HRV Feature Extraction**: Computes HRV time-domain and frequency-domain features from filtered PPG signals.
 3. **Poincaré Plot Analysis**: Generates Poincaré plots for HRV analysis and saves the corresponding metrics.
-
+4. **Merging and Comparission** : To compare the Parasymphatethic with the participants Arousal
+5. **Coorrelation  per Paricipant** : To compare the perfomance of analysis by the videos cuts by intervals and considereded as whole videos.
+6. **IBI plotting** to see the HR perfomance in the whole video period to then see the analyse the intervals.
 ---
 ##  Data Preprocessing & Filtering (`Filtering_Splitting_Renaming_Participants.py`)
 ### **Objective**
