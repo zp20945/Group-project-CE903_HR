@@ -61,7 +61,7 @@ The three scripts perform the following tasks:
 - CSV file containing HRV metrics for each video stimulus for each participant.
 
 ---
-## Poincaré Plot Analysis (`PointcarePlot_v3.py`)
+## Poincaré Plot Analysis (`PointcarePlot_v3.py`)  Run this code for intervals filtered data and whole video to then proceed to comparissions
 ### **Objective**
 - Generate **Poincaré plots** for visual HRV analysis.
 - Compute **SD1**, **SD2**, and **Parasympathetic Index**.
@@ -107,6 +107,12 @@ Select Relevant Features:
 Save the Final Merged Dataset:
 -The script creates an output folder (Comparission/).
 S-aves the merged dataset as final_merged_output.csv for further analysis.
+
+
+## Plotting_Corr_Part.py
+### **Objective**
+- To print the correlation of the Parasymphathetic and Arousal method of splitted and whole videos.
+
 
 ## IBI_plotting
 ### **Objective**
