@@ -90,19 +90,20 @@ The scripts perform the following tasks:
 
 Processing Steps
 -Load CSV Files:
--HRV metrics from split videos (All_Participants_PoincareMetrics.csv from Participant_Analysis_Intervals).
--HRV metrics from whole videos (All_Participants_PoincareMetrics.csv from Participant_Analysis_Whole).
--Arousal ground truth data (individual_ground_truth_without_hm2.csv).
+- HRV metrics from split videos (All_Participants_PoincareMetrics.csv from Participant_Analysis_Intervals).
+- HRV metrics from whole videos (All_Participants_PoincareMetrics.csv from Participant_Analysis_Whole).
+- Arousal ground truth data (individual_ground_truth_without_hm2.csv).
 
 Expand Stimuli for Whole Videos:
--Some stimuli in the whole-video dataset need to be split into multiple components.
--The script uses a predefined mapping dictionary to create corresponding entries.
+- Some stimuli in the whole-video dataset need to be split into multiple components.
+- The script uses a predefined mapping dictionary to create corresponding entries.
 
 Merge Datasets:
--Merge split videos and whole videos datasets using Participant and Stimulus as keys.
--Merge with arousal ground truth data to align physiological metrics with labeled arousal responses.
 
+- Merge split videos and whole videos datasets using Participant and Stimulus as keys.
+- Merge with arousal ground truth data to align physiological metrics with labeled arousal responses.
 Select Relevant Features:
+
 -Participant
 -Stimulus
 -Parasympathetic_SplittedVideos
