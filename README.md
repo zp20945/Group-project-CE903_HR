@@ -1,9 +1,9 @@
 # PPG Signal Processing and HRV Analysis
 
-This repository contains three Python scripts for processing, filtering, and analyzing Photoplethysmography (PPG) signals. The scripts include data preprocessing, feature extraction, and Poincaré plot generation for Heart Rate Variability (HRV) analysis.
+This repository contains Python scripts for processing, filtering, and analyzing Photoplethysmography (PPG) signals. The scripts include data preprocessing, feature extraction, Poincaré plot generation for Heart Rate Variability (HRV) analysis, Merging and comparission, PPG signal variance over time per video.
 
 ## Project Overview
-The three scripts perform the following tasks:
+The scripts perform the following tasks:
 1. **Data Preprocessing & Filtering**: Cleans raw CSV data, applies Butterworth filters, and prepares datasets for further analysis.
 2. **HRV Feature Extraction**: Computes HRV time-domain and frequency-domain features from filtered PPG signals.
 3. **Poincaré Plot Analysis**: Generates Poincaré plots for HRV analysis and saves the corresponding metrics.
@@ -17,7 +17,8 @@ The three scripts perform the following tasks:
 - Extract respondent name.
 - Apply high-pass and low-pass Butterworth filters.
 - Filter data based on specific SourceStimuliNames.
-- Split 6 specific videos according to specific time intervals, creating 6 videos more. 
+- Split 6 specific videos according to specific time intervals, creating 6 videos more.
+- Rename the videos
 - Save the processed data into a new CSV file in an specific folder.
 
 ##  Data Preprocessing & Filtering (`Filtering_Whole_Videos.py`)
@@ -26,6 +27,7 @@ The three scripts perform the following tasks:
 - Extract respondent name.
 - Apply high-pass and low-pass Butterworth filters.
 - Filter data based on specific SourceStimuliNames.
+- Rename the videos
 - Save the processed data into a new CSV file in an specific folder.
   
 
@@ -35,13 +37,14 @@ The three scripts perform the following tasks:
 - Uses a **low-pass Butterworth filter** to smooth the signal.
 - Filters data based on predefined video stimuli.
 - Converts to seconds timestamp values adn splits videos.
+- Rename the videos
 - Saves the filtered datasets.
 
 ### **Output**
 - Processed CSV file containing cleaned and filtered PPG data.
 
 ---
-##  HRV Feature Extraction (`Extracting_Features_v2.py`)
+##  HRV Feature Extraction (`Extracting_Features_v2.py`) (Skipped step for week 18 tasks)
 ### **Objective**
 - Extract HRV features from PPG signals.
 - Compute time-domain and frequency-domain HRV metrics.
@@ -63,7 +66,7 @@ The three scripts perform the following tasks:
 - CSV file containing HRV metrics for each video stimulus for each participant.
 
 ---
-## Poincaré Plot Analysis (`PointcarePlot_v3.py`)  Run this code for intervals filtered data and whole video to then proceed to comparissions
+## Poincaré Plot Analysis (`PointcarePlot_v3.py`)  !Run this code for intervals filtered data and whole video to then proceed to comparissions!
 ### **Objective**
 - Generate **Poincaré plots** for visual HRV analysis.
 - Compute **SD1**, **SD2**, and **Parasympathetic Index**.
@@ -133,9 +136,9 @@ Run each script sequentially to process the PPG signals and extract HRV features
 ```bash
 filtering_splitting_renaiming_participants.py #Preprocess and filter data
 filtering_whole_videos.py  # Preprocess and filter data
-Exctracting_features_v2.py  # Extract HRV features
+Exctracting_features_v2.py  # Extract HRV features (skipped for week 18 tasks)
 Poincare_plot_v3.py  # Generate Poincaré plots
-Merging_Comparing.py # Merging all data and
+Merging_Comparing.py # Merging all data with arousal
 Plotting_corr_part.py # Correleation graphs
 IBI_plotting.py #Generates the HRV plots
 ```
