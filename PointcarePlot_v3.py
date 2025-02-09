@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import os
+import shutil  # For deleting the folder
 import matplotlib.pyplot as plt
 from matplotlib.patches import Ellipse
 from scipy.signal import find_peaks
@@ -29,7 +30,7 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
 
         # Appending the metrics to results
         results.append({
-            'File': file_name,
+            'Participant': file_name.split("_")[-1],
             'Stimulus': stimulus,
             'SD1': SD1,
             'SD2': SD2,
@@ -66,14 +67,22 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
         print(f"Not enough data points for stimulus: {stimulus}, skipping.")
 
 # Defining input folder containing CSV files and output directory
-input_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\filterdata"
-output_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\Participant_Analysis"
+input_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\filterdata_Intervals"
+output_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\Participant_Analysis_Intervals"
+
+# Remove the output folder if it exists to start fresh
+if os.path.exists(output_folder):
+    shutil.rmtree(output_folder)
+os.makedirs(output_folder, exist_ok=True)
+
+# Path for consolidated results file
+all_participants_csv = os.path.join(output_folder, "All_Participants_PoincareMetrics.csv")
 
 # Processing each CSV file
 for file in os.listdir(input_folder):
     if file.endswith(".csv"):
         input_file = os.path.join(input_folder, file)
-        participant_name = os.path.splitext(file)[0]  # Extract participant name from filename
+        participant_name = os.path.splitext(file)[0].split("_")[-1]  # Extract part after the last underscore
         participant_output_dir = os.path.join(output_folder, participant_name)
         os.makedirs(participant_output_dir, exist_ok=True)
         
@@ -106,8 +115,19 @@ for file in os.listdir(input_folder):
             # Generating the Poincaré plot
             process_poincare(stimulus, rr_intervals, participant_name, results, participant_output_dir)
 
-        # Saving metrics to a CSV file for each participant
+        # Save individual participant's Poincaré metrics
         results_df = pd.DataFrame(results)
-        results_df.to_csv(os.path.join(participant_output_dir, "PoincareMetrics.csv"), index=False)
+        participant_csv_path = os.path.join(participant_output_dir, "PoincareMetrics.csv")
+        results_df.to_csv(participant_csv_path, index=False)
+
+        # Save consolidated CSV (overwrite every time)
+        if not results_df.empty:
+            if not os.path.exists(all_participants_csv):
+                # Create the file with headers
+                results_df.to_csv(all_participants_csv, index=False, mode='w')
+            else:
+                # Append without headers
+                results_df.to_csv(all_participants_csv, index=False, mode='a', header=False)
 
         print(f"Processing complete for {participant_name}. Poincaré plots and metrics have been saved.")
+        print(f"All participants' data updated in {all_participants_csv}")
