@@ -84,7 +84,7 @@ The scripts perform the following tasks:
 - CSV file with SD1, SD2, and Parasympathetic Index.
 - CSV file with all participants
 
-## Merging and comparission
+## Merging and comparission Merging_Comparing.py
 ### **Objective**
 -Combine HRV metrics from split videos, whole videos, and arousal ground truth into a single dataset.
 
@@ -120,7 +120,7 @@ S-aves the merged dataset as final_merged_output.csv for further analysis.
 - To print the correlation of the Parasymphathetic and Arousal method of splitted and whole videos.
 
 
-## IBI_plotting
+## IBI_plotting.py
 ### **Objective**
 - Print PPG signal and IBI´s overtime to analyze the intervals. 
 
