@@ -80,8 +80,8 @@ rename_mapping = {
 }
 ## Loading and Applying the previous function 
 ## Paths
-input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\ToTry"
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baseline_ToTry"
+input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Participants"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baseline_Part"
 
 ## Ensuring the output folder is NEW each time
 if os.path.exists(output_folder):
