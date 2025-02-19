@@ -67,8 +67,8 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
         print(f"Not enough data points for stimulus: {stimulus}, skipping.")
 
 # Defining input folder containing CSV files and output directory
-input_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\filterdata_Intervals"
-output_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\Participant_Analysis_Intervals"
+input_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\filterdata_whole_all"
+output_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\Participant_Analysis_Whole_all"
 
 # Remove the output folder if it exists to start fresh
 if os.path.exists(output_folder):
