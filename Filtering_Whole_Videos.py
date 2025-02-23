@@ -42,7 +42,7 @@ rename_mapping = {
     "HN_5-1": "HN_5",
     "HN_6-1": "HN_6",
     "HN_7-1": "HN_7",
-    "HN_8-1": "HN_8",
+    "HN_8-1": "HN_9",
     "HP_1-1": "HP_1",
     "HP_2-1": "HP_2",
     "HP_3-1": "HP_3",
@@ -50,7 +50,7 @@ rename_mapping = {
     "HP_5-1": "HP_5",
     "HP_6-1": "HP_6",
     "HP_7-1": "HP_7",
-    "HP_8-1": "HP_8",
+    "HP_8-1": "HP_9",
     "LN_1-1": "LN_1",
     "LN_2-1": "LN_2",
     "LN_3-1": "LN_3",
@@ -58,7 +58,7 @@ rename_mapping = {
     "LN_5-1": "LN_5",
     "LN_6-1": "LN_6",
     "LN_7-1": "LN_7",
-    "LN_8-1": "LN_8",
+    "LN_8-1": "LN_9",
     "LP_1-1": "LP_1",
     "LP_2-1": "LP_2",
     "LP_3-1": "LP_3",
@@ -66,12 +66,12 @@ rename_mapping = {
     "LP_5-1": "LP_5",
     "LP_6-1": "LP_6",
     "LP_7-1": "LP_7",
-    "LP_8-1": "LP_8",
+    "LP_8-1": "LP_9",
 }
 ## Loading and Applying the previous function 
 ## Paths
-input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Participants"
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_whole_all"
+input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\ToTry"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_whole"
 
 ## Ensure the output folder is NEW each time
 if os.path.exists(output_folder):

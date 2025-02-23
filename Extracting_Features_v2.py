@@ -3,10 +3,20 @@ import pandas as pd
 import numpy as np  
 from scipy.signal import find_peaks, welch  
 import matplotlib.pyplot as plt  
+import os 
+import shutil
 
 # Loading the updated CSV file
-input_dir = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata"
-output_path = r'C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features\AggregatedFeaturesHRV_AllParticipants.csv'
+input_dir = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baseline_Part"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part"
+
+
+# Creating a folder for storing plots
+if os.path.exists(output_folder):
+    shutil.rmtree(output_folder)  
+os.makedirs(output_folder)
+
+output_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part\Features_Baseline_Part.csv"
 
 results = []
 for file_name in os.listdir(input_dir):

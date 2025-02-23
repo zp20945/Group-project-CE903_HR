@@ -2,7 +2,7 @@ import os
 import pandas as pd  
 import shutil 
 
-# Load the extracted HRV features CSV
+# Loading the extracted HRV features CSV
 features_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part\Features_Baseline_Part.csv"
 
 output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Part_Norm"
@@ -42,7 +42,7 @@ def find_baseline(participant, video_name):
     base_name = f"{base_name_parts[0]}_{base_name_parts[1]}"  # Extract base part (e.g., HP_7)
     return baseline_dict.get((participant, f"Baseline_{base_name}"), None)
 
-# Normalize each video's features using its participant-specific baseline
+# Normalizing each video's features using its participant-specific baseline
 normalized_data = []
 
 for index, row in video_df.iterrows():
@@ -66,10 +66,10 @@ for index, row in video_df.iterrows():
         
         normalized_data.append(normalized_features)
 
-# Convert to DataFrame
+# Converting to DataFrame
 normalized_df = pd.DataFrame(normalized_data)
 
-# Save the normalized features to a new CSV
+# Saving the normalized features to a new CSV
 normalized_df.to_csv(output_path, index=False)
 
 print(f"Normalized features saved to {output_path}")
