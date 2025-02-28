@@ -40,7 +40,7 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
         crossing_points = []
 
         for angle in angles:
-            m = np.tan(np.radians(angle))  # Compute slope of section
+            m = np.tan(np.radians(angle))  # Computing slope of section
             b = mean_n1 - m * mean_n  # y-intercept
             
             # Compute intersections
@@ -48,14 +48,14 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
                 x0, x1 = ibi_n[i], ibi_n[i + 1]
                 y0, y1 = ibi_n1[i], ibi_n1[i + 1]
 
-                if (y0 - (m * x0 + b)) * (y1 - (m * x1 + b)) < 0:  # Check if it crosses the line
+                if (y0 - (m * x0 + b)) * (y1 - (m * x1 + b)) < 0:  # Checking if it crosses the line
                     num_crossing_points += 1
-                    crossing_x = (b - y0 + m * x0) / (m + 1e-10)  # Avoid division by zero
+                    crossing_x = (b - y0 + m * x0) / (m + 1e-10)  # Avoiding division by zero
                     crossing_y = m * crossing_x + b
                     crossing_points.append((crossing_x, crossing_y))
 
         crossing_points = np.array(crossing_points)
-
+        # A higher number of crossing points may indicate increased irregularity in HRV
 
         min_area = np.nan
         max_area = np.nan
@@ -74,29 +74,42 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
                crossing_x_norm = (crossing_points[:, 0] - np.mean(crossing_points[:, 0])) / (np.std(crossing_points[:, 0]) + epsilon)
                crossing_y_norm = (crossing_points[:, 1] - np.mean(crossing_points[:, 1])) / (np.std(crossing_points[:, 1]) + epsilon)
 
-        # Compute Areas (F2, F3, F4)
+               # Computing Areas (F2, F3, F4)
                min_area = np.min(np.abs(crossing_x_norm * crossing_y_norm)) if np.min(np.abs(crossing_x_norm * crossing_y_norm)) > 0 else np.nan
+               # A lower F2 suggests more clustering of crossing points, meaning lower variability.
                max_area = np.max(np.abs(crossing_x_norm * crossing_y_norm)) if np.max(np.abs(crossing_x_norm * crossing_y_norm)) > 0 else np.nan
+               # A higher F3 may suggest greater spread of IBI crossings, indicating more HRV complexity.
                mean_area = np.mean(np.abs(crossing_x_norm * crossing_y_norm)) if np.mean(np.abs(crossing_x_norm * crossing_y_norm)) > 0 else np.nan
+               # F4 acts as a balance between F2 and F3, representing the general spread of Poincaré crossings.
 
-               # Normalize by the mean before computing standard deviation
+
+               # Normalizing by the mean before computing standard deviation
                mean_x = np.mean(crossing_points[:, 0]) + 1e-10  # Avoid division by zero
                mean_y = np.mean(crossing_points[:, 1]) + 1e-10
 
-               F5 = np.std(crossing_points[:, 0] / mean_x) if len(crossing_points) > 2 else np.nan
-               F6 = np.std(crossing_points[:, 1] / mean_y) if len(crossing_points) > 2 else np.nan
+               # Captures spread in RR intervals along both axes, representing short-term HRV variations.
+               # F5 Measures the variability of crossing points in the horizontal (IBI_n) axis.
+               F5 = np.std(crossing_points[:, 0] / mean_x) if len(crossing_points) > 2 else np.nan # Higher F5 suggests more variation in IBI_n.
+               # Measures the variability of crossing points in the vertical (IBI_{n+1}) axis.
+               F6 = np.std(crossing_points[:, 1] / mean_y) if len(crossing_points) > 2 else np.nan # Higher F6 suggests more erratic HRV patterns.
 
-
-               F7 = skew(crossing_x_norm) if len(crossing_x_norm) > 2 else np.nan
+               # Tells whether HRV changes are more frequent in shorter or longer intervals, indicating sympathetic vs. parasympathetic dominance.
+               F7 = skew(crossing_x_norm) if len(crossing_x_norm) > 2 else np.nan # Measures the asymmetry of crossing points along the X-axis.
+               # Positive skew means HRV data is right-skewed (higher IBIs dominate), while negative skew means HRV data is left-skewed.
                F8 = skew(crossing_y_norm) if len(crossing_y_norm) > 2 else np.nan
-               F9 = kurtosis(crossing_x_norm) if len(crossing_x_norm) > 2 else np.nan
-               F10 = kurtosis(crossing_y_norm) if len(crossing_y_norm) > 2 else np.nan
+               # Helps in understanding the directional bias of HRV.
+
+               # Indicates whether HRV is stable or fluctuating with extremes.
+               F9 = kurtosis(crossing_x_norm) if len(crossing_x_norm) > 2 else np.nan # Measures how tailed the X-axis distribution is (compared to a normal distribution).
+
+               F10 = kurtosis(crossing_y_norm) if len(crossing_y_norm) > 2 else np.nan # Higher kurtosis means more extreme HRV events, while lower kurtosis suggests a uniform spread.
+
 
 
         except Exception as e:
             print(f"Error processing Poincaré metrics: {e}")
 
-        # ---- Append results ----
+        # Appending results 
         results.append({
             'Participant': file_name.split("_")[-1],
             'Stimulus': stimulus,
@@ -146,10 +159,10 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
         print(f"Not enough data points for stimulus: {stimulus}, skipping.")
 
 # Defining input folder containing CSV files and output directory
-input_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\filterdata_whole"
-output_folder = r"C:\\Users\\Salin\\OneDrive\\Documentos\\ESSEX\\DSPROJECT\\Participant_Analysis_whole_more_st_data"
+input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Whole_with_Baseline_Part"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Participant_Analysis_whole_more_features_with_Baseline"
 
-# Remove the output folder if it exists to start fresh
+# Removing the output folder if it exists to start fresh
 if os.path.exists(output_folder):
     shutil.rmtree(output_folder)
 os.makedirs(output_folder, exist_ok=True)

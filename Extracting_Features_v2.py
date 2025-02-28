@@ -7,8 +7,8 @@ import os
 import shutil
 
 # Loading the updated CSV file
-input_dir = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baseline_Part"
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part"
+input_dir = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Whole_with_Baseline_Part"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part_Whole"
 
 
 # Creating a folder for storing plots
@@ -16,7 +16,7 @@ if os.path.exists(output_folder):
     shutil.rmtree(output_folder)  
 os.makedirs(output_folder)
 
-output_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part\Features_Baseline_Part.csv"
+output_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part_Whole\Features_Baseline_Part.csv"
 
 results = []
 for file_name in os.listdir(input_dir):
