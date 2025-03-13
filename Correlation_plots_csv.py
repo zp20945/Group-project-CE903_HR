@@ -4,12 +4,21 @@ import shutil
 import matplotlib.pyplot as plt
 import numpy as np
 
+# Function to normalize a pandas series between -1 and 1
+def normalize_series(series):
+    min_val = series.min()
+    max_val = series.max()
+    if min_val == max_val:
+        # If constant series, return zeroes to avoid division by zero
+        return pd.Series(0, index=series.index)
+    return 2 * (series - min_val) / (max_val - min_val) - 1
+
 # Loading the merged dataset
-file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Poincare_features_splitted_arousal\merged_file.csv"
+file_path = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baselines_and_med\features_norm_med_audio_arousal.csv"
 df = pd.read_csv(file_path)
 
 # Defining the output folder for participant data (plots + CSVs)
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Poincare_features_splitted_arousal\Correlation_Plots_CSVs"
+output_folder = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baselines_and_med\Correlation_plots_csv_med_audio"
 
 # Ensuring a fresh start by deleting and recreating the folder
 if os.path.exists(output_folder):
@@ -28,55 +37,68 @@ participants = df["Participant"].unique()
 
 # Generating plots and CSVs for each participant
 for participant in participants:
-    participant_df = df[df["Participant"] == participant]  # Filter data for the participant
-    
+    participant_df = df[df["Participant"] == participant].copy()  # Filter data for the participant
+
+    # Normalize arousal and all feature columns between -1 and 1
+    participant_df["Arousal"] = normalize_series(participant_df["Arousal"])
+    for feature in feature_columns:
+        participant_df[feature] = normalize_series(participant_df[feature])
+
     # Creating a folder for this participant
     participant_folder = os.path.join(output_folder, participant)
     os.makedirs(participant_folder, exist_ok=True)
 
-    # Generating and Save Individual CSV 
-    participant_data = participant_df[["Participant", "Stimulus"] + feature_columns + ["Arousal"]]  
+    # Generating and Save Individual CSV (normalized data)
+    participant_data = participant_df[["Participant", "Stimulus"] + feature_columns + ["Arousal"]]
     csv_path = os.path.join(participant_folder, f"{participant}.csv")
     participant_data.to_csv(csv_path, index=False)
 
     # Storing this data for the global CSV
     all_participants_data.append(participant_data)
 
-    # Computing Feature Correlations 
+    # Computing Feature Correlations (on normalized data)
     correlations = {"Participant": participant}
     for feature in feature_columns:
-        if participant_df[feature].nunique() > 1:  # Avoiding NaN correlation if feature has constant values
-            correlations[feature] = np.corrcoef(participant_df["Arousal"], participant_df[feature])[0, 1]
+        if participant_df[feature].nunique() > 1:  # Avoid NaN if feature has constant values
+            correlation_value = np.corrcoef(participant_df["Arousal"], participant_df[feature])[0, 1]
+            normalized_corr = np.clip(correlation_value, -1, 1)  # Clip correlation between -1 and 1
+            correlations[feature] = normalized_corr
         else:
-            correlations[feature] = np.nan  # If feature has only one value, correlation is undefined
+            correlations[feature] = np.nan  # Undefined correlation if no variation
 
     correlation_data.append(correlations)
 
-    # Generating and Save Plots 
+    # Generating and Saving Plots (normalized data)
     for feature in feature_columns:
         plt.figure(figsize=(8, 6))
 
-        # Getting correlation value
+        # Getting correlation value for labeling
         r_value = correlations[feature]
 
-        # Scatter plot
-        plt.scatter(participant_df["Arousal"], participant_df[feature], label=f"r = {r_value:.2f}" if not np.isnan(r_value) else "r = N/A", alpha=0.7)
-        plt.xlabel("Arousal")
-        plt.ylabel(feature)
+        # Scattering plot using normalized data
+        plt.scatter(participant_df["Arousal"], participant_df[feature],
+                    label=f"r = {r_value:.2f}" if not np.isnan(r_value) else "r = N/A", alpha=0.7)
+
+        plt.xlabel("Arousal (Normalized)")
+        plt.ylabel(f"{feature} (Normalized)")
         plt.title(f"{feature} vs Arousal for {participant}")
         plt.grid(True)
         plt.legend()
 
-        # Saving the plot in the participant's folder
+        # Fixing axis boundaries from -1 to 1
+        plt.xlim(-1, 1)
+        plt.ylim(-1, 1)
+
+        # Sav the plot
         plot_path = os.path.join(participant_folder, f"{feature}_vs_Arousal.png")
         plt.savefig(plot_path)
         plt.close()
 
-# Saving Global CSV (All Participants Feature Values) 
+# Saving Global CSV (All Participants Feature Values, normalized)
 global_csv_path = os.path.join(output_folder, "all_participants_data.csv")
 pd.concat(all_participants_data).to_csv(global_csv_path, index=False)
 
-# Saving Correlation Summary CSV 
+# Saving Correlation Summary CSV
 correlation_csv_path = os.path.join(output_folder, "correlation_summary.csv")
 pd.DataFrame(correlation_data).to_csv(correlation_csv_path, index=False)
 

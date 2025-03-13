@@ -3,7 +3,7 @@ import pandas as pd
 import shutil 
 
 # Loading the extracted HRV features CSV
-features_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part_Whole\Features_Baseline_Part.csv"
+features_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\features.csv"
 
 #output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Participant_Analysis_whole_more_features_with_Baseline"
 
@@ -12,10 +12,16 @@ features_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Ba
 #    shutil.rmtree(output_folder)  
 #os.makedirs(output_folder)
 
-output_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Features_Baseline_Part_Whole\Features_Baseline_Part_norm.csv"
+output_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\features_norm_baseline.csv"
 
 # Reading the CSV file
 df = pd.read_csv(features_path)
+
+# Defining patterns to remove
+patterns_to_remove = ["MEDITATION AUDIO", "Meditation_audio_E", "End_Baseline"]
+
+# Removing rows where 'Stimulus' starts with any of the defined patterns
+df = df[~df['SourceStimuliName'].astype(str).str.startswith(tuple(patterns_to_remove))]
 
 # Identifying baselines for each participant
 baseline_dict = {}
@@ -60,7 +66,7 @@ for index, row in video_df.iterrows():
             
             # Avoiding division by zero
             if pd.notna(baseline_value) and abs(baseline_value) > 1e-6: # Avoid NaN and near-zero division
-                normalized_features[col] = (video_value - baseline_value) / baseline_value
+                normalized_features[col] = (video_value - baseline_value)
             else:
                 normalized_features[col] = 0  # Assign 0 if baseline value is zero
         

@@ -19,19 +19,6 @@ def find_and_set_header(df, start_index=31, expected_header_indicator='Row'):
             break
     return df, header, respondent_name
 
-## Butterworth High-pass filter function
-def butter_highpass_filter(data, cutoff, fs, order=5):
-    nyquist = 0.5 * fs
-    normal_cutoff = cutoff / nyquist
-    b, a = butter(order, normal_cutoff, btype='high', analog=False)
-    return filtfilt(b, a, data)
-
-## Butterworth Low-pass filter function
-def butter_lowpass_filter(data, cutoff, fs, order=5):
-    nyquist = 0.5 * fs
-    normal_cutoff = cutoff / nyquist
-    b, a = butter(order, normal_cutoff, btype='low', analog=False)
-    return filtfilt(b, a, data)
 
 # renaming logic to the final dataset
 rename_mapping = {
@@ -81,7 +68,7 @@ rename_mapping = {
 ## Loading and Applying the previous function 
 ## Paths
 input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Participants"
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baselines_and_med"
+output_folder = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed"
 
 ## Ensuring the output folder is NEW each time
 if os.path.exists(output_folder):
@@ -108,44 +95,37 @@ for filename in os.listdir(input_folder):
         df['Internal ADC A13 PPG RAW'] = pd.to_numeric(df['Internal ADC A13 PPG RAW'], errors='coerce')
         
         # If all values become NaN, raising an error before proceeding
-        if df['Internal ADC A13 PPG RAW'].isna().all():
-            raise ValueError("Error: The 'Internal ADC A13 PPG RAW' column contains no valid numeric data.")
+        if df['Heart Rate PPG ALG'].isna().all():
+            raise ValueError("Error: The 'Heart Rate PPG ALG' column contains no valid numeric data.")
 
         # Assigning processed DataFrame
-        data = df  
+        data = df   
 
-        ppg_signal = data['Internal ADC A13 PPG RAW'].astype(float)  # Forces numeric conversion
-        fs = 128  # Sampling frequency
+         # Extracting the 'Heart Rate PPG ALG' column and convert it to float
+        Heart_Rate = data['Heart Rate PPG ALG'].astype(float)
 
-        # Handling NaN values
-        ppg_signal = ppg_signal.interpolate()
+         # Step 1: Replace invalid values (-1) with NaN to flag them for imputation
+        Heart_Rate = Heart_Rate.replace(-1, np.nan)
 
-        # Generating time vector
-        # time = np.arange(len(ppg_signal)) / fs #in case of plotting
+         
+         # Interpolation is suitable for time series data like heart rate, preserving natural trends
+        Heart_Rate = Heart_Rate.interpolate(method='linear')
 
-        # Forward and Backward Propagation
-        # Using backward fill as a fallback for any remaining NaN values
-        ppg_signal = ppg_signal.bfill()
+         # Backward fill to handle any NaN left at the beginning (where interpolation can't work)
+        Heart_Rate = Heart_Rate.bfill()
 
-        # Filling NaN values using forward fill
-        ppg_signal = ppg_signal.ffill()
-
-
-        baseline_cutoff = 0.5  # Cutoff frequency for baseline drift
-        ppg_without_baseline = butter_highpass_filter(ppg_signal, baseline_cutoff, fs)
+         # Forward fill to handle any NaN left at the end
+        Heart_Rate = Heart_Rate.ffill()
 
 
-        # Applying low-pass filter
-        lowpass_cutoff = 2  # Cutoff frequency in Hz
-        filtered_butter = butter_lowpass_filter(ppg_without_baseline, lowpass_cutoff, fs)
 
         ## For the final result, a new file with the data filtered
         # Adding the Butterworth filtered PPG signal as a new column
-        data['Butterworth Filtered PPG Signal'] = filtered_butter
+        data['Heart Rate Signal'] = Heart_Rate
         data['Respondent Name'] = respondent_name
 
         # Specifying the columns to include in the output
-        columns_to_include = ['Respondent Name','Timestamp', 'SourceStimuliName', 'Internal ADC A13 PPG RAW', 'Butterworth Filtered PPG Signal',]
+        columns_to_include = ['Respondent Name','Timestamp', 'SourceStimuliName', 'Internal ADC A13 PPG RAW', 'Heart Rate Signal',]
 
         # Filtering data based on source stimuli names
         source_stimuli_to_include = [
