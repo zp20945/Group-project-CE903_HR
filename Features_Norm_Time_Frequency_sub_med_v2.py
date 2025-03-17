@@ -1,8 +1,8 @@
 import pandas as pd
 
 # File paths
-features_path = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baselines_and_med\features.csv"
-output_path = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baselines_and_med\features_norm_med_audio.csv"
+features_path = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\features.csv"
+output_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\features_norm_med_audio.csv"
 
 # Reading the CSV file
 df = pd.read_csv(features_path)
@@ -52,11 +52,9 @@ for participant in participants:
                 meditation_value = float(meditation_value)
                 video_value = float(video_value)
 
-                # Avoiding division by zero or near-zero reference values
-                if pd.notna(meditation_value) and abs(meditation_value) > 1e-6:
-                    normalized_features[col] = (video_value - meditation_value)
-                else:
-                    normalized_features[col] = 0
+
+                normalized_features[col] = (video_value - meditation_value)
+
             except ValueError:
                 normalized_features[col] = 0
 
