@@ -6,6 +6,7 @@
   - PoincarePlotv4
 - Normalize the features (currently done with the stimuli Meditation_audio_E)(just as Stimuli´s fetaures - Meditation_Audio_E) : Features_Norm_Time_Frequency_sub_med_v2(This file should be applied and made work for after merging all features for efficiency)
 - Merging All features : merging_all_features
+- Merge with Arousal
 - Correlation_plots_csv : (To do Feature Selection)
 - svr_onefeature
 - Regression_onefeature
