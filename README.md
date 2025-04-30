@@ -12,6 +12,13 @@
 
 
 
+Links for the resources for the project : 
+box : https://essexuniversity.app.box.com/folder/275047382390?tc=collab-folder-invite-treatment-b
+GoogleDrive with the essentials of the project: https://drive.google.com/drive/folders/1V_sfkkrW6q8fWkEJMH4I79qfRwFeJv19
+-In google drive the folders that i use to make these codes run are : ToTry (to try the codes) & Participants ](to work with all data)
+- Intervals.csv contains the intervals (cut times of the videos)
+
+
 
 
 # "Past Description" PPG Signal Processing and HRV Analysis
@@ -159,12 +166,5 @@ Merging_Comparing.py # Merging all data with arousal
 Plotting_corr_part.py # Correleation graphs
 IBI_plotting.py #Generates the HRV plots
 ```
-
-
-Links for the resources for the project : 
-box : https://essexuniversity.app.box.com/folder/275047382390?tc=collab-folder-invite-treatment-b
-GoogleDrive with the essentials of the project: https://drive.google.com/drive/folders/1V_sfkkrW6q8fWkEJMH4I79qfRwFeJv19
--In google drive the folders that i use to make these codes run are : ToTry (to try the codes) & Participants ](to work with all data)
-- Intervals.csv contains the intervals (cut time sof the videos)
 
 
