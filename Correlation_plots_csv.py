@@ -14,11 +14,11 @@ def normalize_series(series):
     return 2 * (series - min_val) / (max_val - min_val) - 1
 
 # Loading the merged dataset
-file_path = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baselines_and_med\features_norm_med_audio_arousal.csv"
+file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\features_norm_med_audio_arousal.csv"
 df = pd.read_csv(file_path)
 
 # Defining the output folder for participant data (plots + CSVs)
-output_folder = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\filterdata_Int_with_Baselines_and_med\Correlation_plots_csv_med_audio"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\Correlation_plots_csv_med_audio"
 
 # Ensuring a fresh start by deleting and recreating the folder
 if os.path.exists(output_folder):

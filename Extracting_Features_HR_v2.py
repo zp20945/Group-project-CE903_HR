@@ -5,8 +5,8 @@ from scipy.interpolate import interp1d
 import os
 
 # Input and outputs paths
-input_dir = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed"
-output_csv = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\features.csv"
+input_dir = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed_Splitted_Videos\PPG_HR_Preprocessed_3_sec"
+output_csv = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed_Splitted_Videos\Time_Frequency_Features.csv"
 
 # Function of band power 
 def band_power(freqs, psd, band):
@@ -135,4 +135,4 @@ if not final_df.empty:
     final_df.to_csv(output_csv, index=False)
     print(f"\nHR-based HRV features for ALL files saved to:\n{output_csv}")
 else:
-    print("\n No HRV features were extracted from any files. Check your data!")
+    print("\n No HRV features were extracted from any files. Check the data!")

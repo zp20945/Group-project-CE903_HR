@@ -10,18 +10,20 @@ from scipy.spatial import ConvexHull
 
 
 # Function to calculate RR intervals from detected peaks
-def calculate_rr_intervals(ppg_signal, timestamps, fs=128):
-    peaks, _ = find_peaks(ppg_signal, distance=fs // 2)  # Minimum peak distance = 0.5s
-    peak_times = timestamps.iloc[peaks].values  # Extracting the corresponding timestamps
-    rr_intervals = np.diff(peak_times)  # Time differences between consecutive peaks
+def calculate_rr_intervals(heart_rate):
+    heart_rate = heart_rate.astype(float)
+    heart_rate[heart_rate <= 0] = np.nan
+    heart_rate = heart_rate.dropna()
+    rr_intervals = 60.0 / heart_rate
+    rr_intervals = rr_intervals.dropna()
     return rr_intervals
 
 # Function to process Poincaré plots and metrics
 def process_poincare(stimulus, rr_intervals, file_name, results, participant_output_dir):
     if len(rr_intervals) > 1:
         # Creating pairs of RR intervals
-        ibi_n = rr_intervals[:-1]  # RR intervals at n
-        ibi_n1 = rr_intervals[1:]  # RR intervals at n+1
+        ibi_n = rr_intervals[:-1].values  # RR intervals at n
+        ibi_n1 = rr_intervals[1:].values  # RR intervals at n+1
         ibi_pairs = pd.DataFrame({'IBI_n': ibi_n, 'IBI_n+1': ibi_n1})
 
         # Mean values for center of ellipse
@@ -159,8 +161,8 @@ def process_poincare(stimulus, rr_intervals, file_name, results, participant_out
         print(f"Not enough data points for stimulus: {stimulus}, skipping.")
 
 # Defining input folder containing CSV files and output directory
-input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed\PPG_HR_Preprocessed_Splitted_2sec_Videos\PPG_HR_Preprocessed"
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed\PPG_HR_Preprocessed_Splitted_2sec_Videos\PPG_Features\Poincare"
+input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed_Splitted_Videos\PPG_HR_Preprocessed_3_sec"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed_Splitted_Videos\PoincarePlots"
 
 # Removing the output folder if it exists to start fresh
 if os.path.exists(output_folder):
@@ -186,24 +188,21 @@ for file in os.listdir(input_folder):
             continue
         
         # Extracting columns
-        columns_PPG = ['Timestamp', 'SourceStimuliName', 'Butterworth Filtered PPG Signal']
-        df_ppg = data[columns_PPG]
-        unique_stimuli = df_ppg['SourceStimuliName'].unique()
+        columns_HR = ['Timestamp', 'SourceStimuliName', 'Heart Rate Signal']
+        df_hr = data[columns_HR]
+        unique_stimuli = df_hr['SourceStimuliName'].unique()
         
         # Results list to store metrics
         results = []
 
         # Process each stimulus
         for stimulus in unique_stimuli:
-            stimulus_data = df_ppg[df_ppg['SourceStimuliName'] == stimulus]
+            stimulus_data = df_hr[df_hr['SourceStimuliName'] == stimulus]
             if stimulus_data.empty:
                 continue
 
             # Calculating RR intervals
-            rr_intervals = calculate_rr_intervals(
-                ppg_signal=stimulus_data['Butterworth Filtered PPG Signal'],
-                timestamps=stimulus_data['Timestamp']
-            )
+            rr_intervals = calculate_rr_intervals(stimulus_data['Heart Rate Signal'])
             # Generating the Poincaré plot
             process_poincare(stimulus, rr_intervals, participant_name, results, participant_output_dir)
 
