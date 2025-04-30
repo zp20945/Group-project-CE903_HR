@@ -1,12 +1,12 @@
 # The WorkFlow is: #
 
-- Filtering the Data PPG_HR_Whole_Splitted_3sec_Videos
+- Filtering the Data: PPG_HR_Whole_Splitted_3sec_Videos
 - Extracting_Features : 
   - Extracting_Features_HR_v2
   - PoincarePlotv4
 - Normalize the features (currently done with the stimuli Meditation_audio_E)(just as Stimuli´s fetaures - Meditation_Audio_E)
-- Merging All features merging_all_features
-- Correlation_plots_csv (To do Feature Selection)
+- Merging All features : merging_all_features
+- Correlation_plots_csv : (To do Feature Selection)
 - svr_onefeature
 - Regression_onefeature
 
