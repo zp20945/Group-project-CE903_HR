@@ -1,4 +1,4 @@
-The WorkFlow is:
+#The WorkFlow is:#
 
 Filtering the Data PPG_HR_Whole_Splitted_3sec_Videos
 Extracting_Features : 
@@ -12,9 +12,9 @@ Regression_onefeature
 
 
 
-"""Past Description"
 
-# PPG Signal Processing and HRV Analysis
+
+# "Past Description" PPG Signal Processing and HRV Analysis
 
 This repository contains Python scripts for processing, filtering, and analyzing Photoplethysmography (PPG) signals. The scripts include data preprocessing, feature extraction, Poincaré plot generation for Heart Rate Variability (HRV) analysis, Merging and comparission, PPG signal variance over time per video.
 
