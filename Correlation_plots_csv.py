@@ -3,6 +3,7 @@ import os
 import shutil
 import matplotlib.pyplot as plt
 import numpy as np
+import re
 
 # Function to normalize a pandas series between -1 and 1
 def normalize_series(series):
@@ -14,11 +15,11 @@ def normalize_series(series):
     return 2 * (series - min_val) / (max_val - min_val) - 1
 
 # Loading the merged dataset
-file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\features_norm_med_audio_arousal.csv"
+file_path = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed_more_3\merged_features_norm_Med_audio_arousal.csv"
 df = pd.read_csv(file_path)
 
 # Defining the output folder for participant data (plots + CSVs)
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\HR_preprocessed\Correlation_plots_csv_med_audio"
+output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Preprocessed_more_3\Features_Correlations"
 
 # Ensuring a fresh start by deleting and recreating the folder
 if os.path.exists(output_folder):
@@ -37,7 +38,7 @@ participants = df["Participant"].unique()
 
 # Generating plots and CSVs for each participant
 for participant in participants:
-    participant_df = df[df["Participant"] == participant].copy()  # Filter data for the participant
+    participant_df = df[df["Participant"] == participant].copy()  # Filtering data for the participant
 
     # Normalize arousal and all feature columns between -1 and 1
     participant_df["Arousal"] = normalize_series(participant_df["Arousal"])
@@ -70,6 +71,7 @@ for participant in participants:
 
     # Generating and Saving Plots (normalized data)
     for feature in feature_columns:
+        safe_feature = re.sub(r'[\\/*?:"<>|]', "_", feature)
         plt.figure(figsize=(8, 6))
 
         # Getting correlation value for labeling
@@ -90,7 +92,7 @@ for participant in participants:
         plt.ylim(-1, 1)
 
         # Sav the plot
-        plot_path = os.path.join(participant_folder, f"{feature}_vs_Arousal.png")
+        plot_path = os.path.join(participant_folder, f"{safe_feature}_vs_Arousal.png")
         plt.savefig(plot_path)
         plt.close()
 
