@@ -14,8 +14,11 @@
 
 
 Links for the resources for the project : 
-box : https://essexuniversity.app.box.com/folder/275047382390?tc=collab-folder-invite-treatment-b
-GoogleDrive with the essentials of the project: https://drive.google.com/drive/folders/1V_sfkkrW6q8fWkEJMH4I79qfRwFeJv19
+**box** : https://essexuniversity.app.box.com/folder/224513307742
+- important data for the project : https://essexuniversity.app.box.com/folder/275045862654?s=5gyuo5ql3glz102xc17sl6slr6ejrftk
+**GoogleDrive** with the essentials of the project: https://drive.google.com/drive/folders/1V_sfkkrW6q8fWkEJMH4I79qfRwFeJv19
+- the *folder "participants"* is one that i created after checking in *Clinical Reviews*-the-*Final Interpretation.xlsx* and seeing that some "Healthy Particpants" became red.
+  Folder participants : https://drive.google.com/file/d/1YG9PhfkVPc-GprVgGLiPq9LJV6u5ril2/view?usp=sharing
 -In google drive the folders that i use to make these codes run are : ToTry (to try the codes) & Participants ](to work with all data)
 - Intervals.csv contains the intervals (cut times of the videos)
 
