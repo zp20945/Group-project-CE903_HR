@@ -8,7 +8,7 @@ This repository contains a full pipeline for preprocessing, feature extraction, 
 
 ### `1. PPG_HR_Longer_Intervals.py`
 Preprocesses raw CSV files containing PPG and HR data:
-- Dynamically detects and sets headers
+- Detects and sets headers
 - Applies Butterworth high-pass and low-pass filters to remove noise and baseline drift
 - Cleans and imputes heart rate signals using forward fill, backward fill, and interpolation
 - Normalizes timestamps and adjusts intervals per stimulus
@@ -19,11 +19,11 @@ Preprocesses raw CSV files containing PPG and HR data:
 ---
 
 ### `2. Time_Frequency_Features_Extraction.py`
-Extracts classical HRV features in the time and frequency domains from the filtered signals (e.g., SDNN, RMSSD, LF/HF ratio).
+Extracts classical HRV features in the time and frequency domains from the filtered signals.
 ---
 
 ### `3. PoincarePlos_Features_HR.py`
-Calculates non-linear HRV metrics from Poincaré plots:
+Plots poincaré plots and Calculates non-linear HRV metrics from Poincaré plots.
 ---
 
 ### `4. merging_all_features.py`
