@@ -55,3 +55,7 @@ Machine learning pipeline for arousal prediction based on HRV features:
 - Model evaluation using **RMSE**, **MAE**, and **R²**
 - Feature importance analysis
 ---
+
+Sources: 
+- https://essexuniversity.app.box.com/folder/224513307742
+- https://drive.google.com/drive/u/2/folders/1qgv_TNXbNW2uBoi6anpZ8d7iBiFP5Y1A
