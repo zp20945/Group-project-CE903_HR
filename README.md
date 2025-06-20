@@ -1,4 +1,5 @@
 **Emotion Recognition from PPG & HR Signals**
+
 This repository contains the full pipeline for preprocessing, feature extraction, merging, normalization, and machine learning applied to heart rate (HR) and photoplethysmographic (PPG) signals recorded during emotional video stimuli.
 
 Flow:
