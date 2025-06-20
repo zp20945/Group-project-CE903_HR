@@ -15,7 +15,7 @@ Preprocesses raw CSV files containing PPG and HR data:
 - Splits/merges video intervals and reassigns survey timestamps to target videos
 - Standardizes stimulus names and exports clean files
 
-> **Note:** The split/merge intervals were inspired by GSR intervals, aiming for at least 15 seconds of usable data per stimulus. In some cases, survey durations are appended to reach this minimum window.
+> **Note:** The intervals are based in GSR intervals but pretending to have at least 15 seconds per stimuli where possible, that is the reason why some time from the surveys is taken and appened to the stimuli.
 ---
 
 ### `2. Time_Frequency_Features_Extraction.py`
