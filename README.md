@@ -2,6 +2,7 @@
 
 This repository contains a full pipeline for preprocessing, feature extraction, normalization, and machine learning applied to heart rate (HR) and photoplethysmographic (PPG) signals recorded during emotional video stimuli.
 
+The extraction features codes are labeled with HR and PPG because the HR feature is given by imotions software while the PPG is a raw signal, which is preprocessed and showed better results at the moment of modelling the machine models algoritmns. Thefore, the codes which terminate with _PPG are the most valuable. 
 ---
 
 ## Pipeline Overview
