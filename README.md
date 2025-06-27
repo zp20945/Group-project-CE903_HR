@@ -20,6 +20,9 @@ Preprocesses raw CSV files containing PPG and HR data:
 > **Note:** The intervals are based in GSR intervals but pretending to have at least 15 seconds per stimuli where possible, that is the reason why some time from the surveys is taken and appened to the stimuli.
 ---
 
+### '1.5. PSD_plots'
+For checking the Power Spectral Density Values of each video. 
+
 ### `2. Time_Frequency_Features_Extraction.py`
 Extracts classical HRV features in the time and frequency domains from the filtered signals.
 
@@ -59,7 +62,7 @@ Machine learning pipeline for arousal prediction based on HRV features:
 - Model evaluation using **RMSE**, **MAE**, and **R²**
 - Feature importance analysis
 
-### PSD_plots is for checking the Power Spectral Density Values of each video. 
+
 ---
 
 Sources: 
