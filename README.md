@@ -8,6 +8,14 @@ The extraction features codes are labeled with HR and PPG because the HR feature
 
 ## Pipeline Overview
 
+### `0. PPG_HR_Whole_videos_plus_surveys.py`
+- Detects and sets headers
+- Applies Butterworth high-pass and low-pass filters to remove noise and baseline drift
+- Cleans and imputes heart rate signals using forward fill, backward fill, and interpolation
+- Normalizes timestamps and adjusts intervals per stimulus
+- Standardizes stimulus names and exports clean files
+This code was used as base to then plot the IBIs with the code `IBI_Scattered_plots.py`  and therefore select the intervals to split the videos to get the best possible analysis of the Heart Rate Variability reacting to different stimuli with different arousal levels. 
+
 ### `1. PPG_HR_Longer_Intervals.py`
 Preprocesses raw CSV files containing PPG and HR data:
 - Detects and sets headers
@@ -20,15 +28,17 @@ Preprocesses raw CSV files containing PPG and HR data:
 > **Note:** The intervals are based in GSR intervals but pretending to have at least 15 seconds per stimuli where possible, that is the reason why some time from the surveys is taken and appened to the stimuli.
 ---
 
-### 15. PSD_ind_Graphs
+### 1,5. PSD_ind_Graphs
 For checking the Power Spectral Density Values of each video. 
+
+---
 
 ### `2. Time_Frequency_Features_Extraction.py`
 Extracts classical HRV features in the time and frequency domains from the filtered signals.
 
 ---
 
-### `3. PoincarePlos_Features_HR.py`
+### `3. PoincarePlos_Features.py`
 Plots poincaré plots and Calculates non-linear HRV metrics from Poincaré plots.
 
 ---
