@@ -20,7 +20,7 @@ Preprocesses raw CSV files containing PPG and HR data:
 > **Note:** The intervals are based in GSR intervals but pretending to have at least 15 seconds per stimuli where possible, that is the reason why some time from the surveys is taken and appened to the stimuli.
 ---
 
-### 15. PSD_plots
+### 15. PSD_ind_Graphs
 For checking the Power Spectral Density Values of each video. 
 
 ### `2. Time_Frequency_Features_Extraction.py`
