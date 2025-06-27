@@ -22,10 +22,12 @@ Preprocesses raw CSV files containing PPG and HR data:
 
 ### `2. Time_Frequency_Features_Extraction.py`
 Extracts classical HRV features in the time and frequency domains from the filtered signals.
+
 ---
 
 ### `3. PoincarePlos_Features_HR.py`
 Plots poincaré plots and Calculates non-linear HRV metrics from Poincaré plots.
+
 ---
 
 ### `4. merging_all_features.py`
@@ -56,6 +58,7 @@ Machine learning pipeline for arousal prediction based on HRV features:
 - Hyperparameter tuning with **GridSearch**
 - Model evaluation using **RMSE**, **MAE**, and **R²**
 - Feature importance analysis
+- 
 ---
 
 Sources: 
