@@ -58,10 +58,13 @@ Machine learning pipeline for arousal prediction based on HRV features:
 - Hyperparameter tuning with **GridSearch**
 - Model evaluation using **RMSE**, **MAE**, and **R²**
 - Feature importance analysis
-- 
+
+### PSD_plots is for checking the Power Spectral Density Values of each video. 
 ---
 
 Sources: 
 - https://essexuniversity.app.box.com/folder/224513307742
-    - current : df = https://drive.google.com/file/d/1c5E58qJpfwrHdMteJF54uNhpyzwUUdnm/view?usp=drive_link
 - https://drive.google.com/drive/u/2/folders/1qgv_TNXbNW2uBoi6anpZ8d7iBiFP5Y1A
+   - current df for (PPG) best results : https://drive.google.com/file/d/1-LjPObsxFOoBXd4XKQid8459TiFM8zHx/view?usp=drive_link
+   - current df for (HR) : df = https://drive.google.com/file/d/1c5E58qJpfwrHdMteJF54uNhpyzwUUdnm/view?usp=drive_link 
+     
