@@ -81,7 +81,7 @@ rename_mapping = {
 
 ## Paths
 input_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\Healthy participants"
-output_folder = r"C:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Analysis_Longer_Intervals\PPG_HR_Preprocessed_Longer_Intervals"
+output_folder = r"c:\Users\Salin\OneDrive\Documentos\ESSEX\DSPROJECT\PPG_HR_Analysis_Longer_Intervals_\PPG_HR_Analysis_Longer_Intervals"
 
 ## Ensuring the output folder is NEW each time
 if os.path.exists(output_folder):
@@ -239,7 +239,7 @@ for filename in os.listdir(input_folder):
         split_intervals = {
                "HP_1-1": {"original_interval": (23, float('inf')), "merge_intervals": [(0,23)], "new_video_name": "HP_1-2"},
                "HP_3-1": {"original_interval": (0, 30), "merge_intervals": [(30, float('inf'))], "new_video_name": "HP_3-2"},
-               "HP_7-1": {"original_interval": (3, float('inf')), "merge_intervals": [(0, 3)], "new_video_name": "HP_7-2"},
+               "HP_7-1": {"original_interval": (6, float('inf')), "merge_intervals": [(0, 6)], "new_video_name": "HP_7-2"},
                "HN_2-1": {"original_interval": (7, float('inf')), "merge_intervals": [(0, 7)], "new_video_name": "HN_2-2"},
                "HN_3-1": {"original_interval": (20, float('inf')), "merge_intervals": [(0, 20)], "new_video_name": "HN_3-2"},
                "LN_7-1": {"original_interval": (35, float('inf')), "merge_intervals": [(0, 35)], "new_video_name": "LN_7-2"},
